@@ -58,6 +58,7 @@ body {
 .an-block { background: rgba(13,24,16,0.9); border: 1px solid var(--rule); border-left: 3px solid var(--gold); padding: 1.5rem 1.8rem; margin: 2.5rem 0; font-size: 0.96rem; color: rgba(240,232,208,0.75); }
 .an-block b { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.7rem; }
 .an-block em { color: var(--galinda-pale); }
+.an-block .green-em { color: var(--elphaba-pale); font-style: italic; }
 
 .chapter-block { display: none; animation: gatePass 0.7s ease both; }
 .chapter-block.active { display: block; }
@@ -87,6 +88,7 @@ body {
 .margin-note { font-size: 0.82rem; color: var(--elphaba); font-style: italic; border-left: 2px solid var(--elphaba-mid); padding-left: 0.7rem; margin: 0.5rem 0 0.5rem 1rem; }
 .doc .underline { text-decoration: underline; text-underline-offset: 3px; }
 .doc .circled { display: inline-block; border: 1.5px solid #5A3520; border-radius: 50%; padding: 0 0.2em; }
+.doc .redacted { background: #1A1008; color: #1A1008; user-select: none; padding: 0 0.15em; }
 .doc-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); opacity: 0.7; margin-bottom: 0.5rem; display: block; }
 
 .puzzle-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-family: 'IM Fell English', serif; font-size: 0.93rem; }
@@ -145,7 +147,7 @@ body {
 
 <aside class="an-block">
   <b>Author's Note</b>
-  <p>You are <em>Glinda Upland of the Upper Uplands</em> — née Galinda. The year is after. There are six physical locks between you and the truth. No multiple-choice pathways exist anymore. Interact with the mechanics directly to align physical runic pins, lock coordinates, and circuit routing arrays.</p>
+  <p>You are <em>Glinda Upland of the Upper Uplands</em> — née Galinda. The year is after. There are six physical locks between you and the truth.</p>
 </aside>
 
 <div class="chapter-block active" id="block-ch1">
@@ -163,7 +165,6 @@ body {
       Ox. Fox.<br>
       Tiger. Horse. Elephant.<br>
       Velvet-mole. Ibis. Nightingale. Kite. Unicorn. Squirrel.</p>
-      <div class="margin-note">— written in the key of Dillamond's Bestiary, first letter only —</div>
     </div>
     
     <span class="doc-label">Exhibit B — Dillamond's Bestiary, partial page</span>
@@ -182,7 +183,7 @@ body {
       </table>
     </div>
 
-    <p class="prose">Align the five heavy brass wheel rings below to input the core 5-letter tracking word decoded from **Line 1** of her margin notes to unlock the mechanisms.</p>
+    <p class="prose">Align the five heavy brass wheel rings below to input the core 5-letter tracking word decoded from her margin notes to unlock the mechanisms.</p>
 
     <div class="puzzle-lock" id="lock-ch1">
       <div class="lock-header">Grimmerie Lock Core</div>
@@ -275,7 +276,7 @@ body {
     <div class="chap-rule"></div>
   </div>
   <div class="story-card">
-    <p class="prose">Madame Morrible wrote to the interim administration regarding a sweep of the southern Vinkus. The tactical coordinates use an insulated tracking grid running from A–F horizontally and 1–5 vertically, with the Emerald City at center position C3.</p>
+    <p class="prose">Madame Morrible wrote to the interim administration regarding a sweep of the southern Vinkus. The tactical coordinates use an insulated tracking grid running from A–F horizontally and 1–5 vertically.</p>
 
     <span class="doc-label">Exhibit D — Official correspondence, Madame Morrible</span>
     <div class="doc doc-official">
@@ -486,7 +487,6 @@ document.addEventListener("DOMContentLoaded", () => {
   nodes3.forEach(node => {
     node.addEventListener("click", () => {
       nodes3.forEach(n => n.classList.remove("selected"));
-      node.boxShadow = "none";
       node.classList.add("selected");
       if (node.getAttribute("data-coord") === "F5") {
         setLockSolved(lock3, "MATRIX PASSCODE ROUTE VERIFIED", "block-ch4");
