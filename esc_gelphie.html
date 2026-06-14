@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wicked Remainder — A Gelphie Escape Room</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --elphaba:      #1E5C35;
+  --elphaba-mid:  #2D8A4E;
+  --elphaba-pale: #A8D5B5;
+  --galinda:      #9E2D52;
+  --galinda-mid:  #C4527A;
+  --galinda-pale: #EDB8CB;
+  --oz-black:     #080F0A;
+  --oz-dark:      #0D1810;
+  --parchment:    #F0E8D0;
+  --parchment-dk: #D8CCAC;
+  --ink:          #1A1008;
+  --gold:         #C9A030;
+  --gold-pale:    #E8C96A;
+  --spell:        #4AE878;
+  --shadow:       rgba(0,0,0,0.6);
+  --rule:         rgba(201,160,48,0.25);
+}
+
+body {
+  background-color: var(--oz-black);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% 40%, rgba(30,92,53,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 85% 20%, rgba(158,45,82,0.06) 0%, transparent 65%);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: var(--parchment);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+.page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 1.5rem 6rem;
+}
+
+.masthead { padding: 4rem 2rem 3rem; text-align: center; position: relative; }
+.masthead-eyebrow { font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.8rem; opacity: 0.8; }
+.masthead-title { font-family: 'Cinzel', serif; font-size: clamp(2rem, 6vw, 3.4rem); font-weight: 700; line-height: 1.1; color: var(--parchment); letter-spacing: 0.04em; margin-bottom: 0.8rem; }
+.masthead-title .g-word { color: var(--galinda-pale); }
+.masthead-title .e-word { color: var(--elphaba-pale); }
+.masthead-subtitle { font-family: 'IM Fell English', serif; font-style: italic; font-size: 1.1rem; color: rgba(240,232,208,0.55); margin-bottom: 2.5rem; }
+.masthead-rule { display: flex; align-items: center; gap: 1rem; margin: 0 auto; max-width: 400px; }
+.masthead-rule::before, .masthead-rule::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.masthead-rule-center { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.3em; white-space: nowrap; }
+
+.an-block { background: rgba(13,24,16,0.9); border: 1px solid var(--rule); border-left: 3px solid var(--gold); padding: 1.5rem 1.8rem; margin: 2.5rem 0; font-size: 0.96rem; color: rgba(240,232,208,0.75); }
+.an-block b { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.7rem; }
+.an-block em { color: var(--galinda-pale); }
+.an-block .green-em { color: var(--elphaba-pale); font-style: italic; }
+
+.chapter-block { display: none; animation: gatePass 0.7s ease both; }
+.chapter-block.active { display: block; }
+
+@keyframes gatePass {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chapter-head { text-align: center; padding: 3rem 0 1.5rem; position: relative; }
+.chapter-num { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.35em; color: var(--gold); opacity: 0.7; margin-bottom: 0.5rem; }
+.chapter-title { font-family: 'IM Fell English', serif; font-size: clamp(1.3rem, 3.5vw, 1.9rem); color: var(--parchment); font-style: italic; }
+.chapter-title .pink { color: var(--galinda-pale); font-style: normal; }
+.chapter-title .green { color: var(--elphaba-pale); font-style: normal; }
+.chap-rule { width: 120px; height: 1px; background: linear-gradient(90deg, transparent, var(--rule), transparent); margin: 1.2rem auto 0; }
+
+.story-card { background: var(--parchment); border: 1px solid rgba(201,160,48,0.3); padding: 2.2rem 2.4rem; margin-bottom: 1.5rem; position: relative; box-shadow: 0 8px 40px rgba(0,0,0,0.5); color: var(--ink); }
+.story-card::after { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(201,160,48,0.12); pointer-events: none; }
+.prose { font-size: 1.05rem; line-height: 1.95; color: #251508; margin-bottom: 1.2rem; }
+.prose strong { color: var(--galinda); font-weight: 600; }
+.prose .green { color: var(--elphaba); font-weight: 600; }
+
+.doc { position: relative; margin: 1.4rem 0; padding: 1.6rem 2rem; font-family: 'IM Fell English', serif; font-size: 0.98rem; line-height: 1.95; color: #1E0E05; }
+.doc-parchment { background: #EAE0C4; border: 1px solid #C4AD78; box-shadow: 2px 3px 14px rgba(0,0,0,0.25); }
+.doc-official { background: #F5F0E0; border: 2px solid #8A7040; border-top: 8px solid var(--elphaba); }
+.doc-official::before { content: 'OFFICIAL CORRESPONDENCE FROM THE EMERALD CITY ADVISORY'; display: block; font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em; text-align: center; color: var(--elphaba); margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(30,92,53,0.3); }
+.margin-note { font-size: 0.82rem; color: var(--elphaba); font-style: italic; border-left: 2px solid var(--elphaba-mid); padding-left: 0.7rem; margin: 0.5rem 0 0.5rem 1rem; }
+.doc .underline { text-decoration: underline; text-underline-offset: 3px; }
+.doc .circled { display: inline-block; border: 1.5px solid #5A3520; border-radius: 50%; padding: 0 0.2em; }
+.doc .redacted { background: #1A1008; color: #1A1008; user-select: none; padding: 0 0.15em; }
+.doc-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); opacity: 0.7; margin-bottom: 0.5rem; display: block; }
+
+.puzzle-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-family: 'IM Fell English', serif; font-size: 0.93rem; }
+.puzzle-table th { background: rgba(30,92,53,0.12); color: var(--elphaba); font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.6rem 0.8rem; text-align: left; border: 1px solid rgba(201,160,48,0.3); }
+.puzzle-table td { padding: 0.55rem 0.8rem; border: 1px solid rgba(201,160,48,0.2); color: #251508; }
+.puzzle-table td.highlight-e { color: var(--elphaba); font-weight: 600; }
+
+.scarecrow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin: 1.2rem 0; }
+.sc-cell { background: #EAE0C4; border: 1px solid #C4AD78; padding: 0.7rem 0.4rem; text-align: center; font-size: 0.85rem; color: #251508; font-family: 'IM Fell English', serif; }
+.sc-cell strong { color: var(--elphaba); display: block; font-size: 1.1rem; margin-top: 0.2rem; }
+
+.map-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin: 1.2rem 0; border: 2px solid #8A7040; background: #8A7040; user-select: none; }
+.map-cell { background: #EAE0C4; padding: 0.5rem 0.3rem; text-align: center; font-size: 0.7rem; color: #251508; min-height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'IM Fell English', serif; }
+.map-cell.map-coord { background: #D4C89A; font-family: 'Cinzel', serif; font-size: 0.6rem; color: #8A7040; font-weight: bold; }
+.map-cell.map-city { background: #A8D5B5; font-weight: bold; color: var(--elphaba); }
+.map-cell.map-x { background: rgba(158,45,82,0.15); color: var(--galinda); font-weight: bold; }
+.map-cell.interactive-node { cursor: pointer; transition: all 0.2s; }
+.map-cell.interactive-node:hover { background: #E2D4A8; }
+.map-cell.interactive-node.selected { background: var(--spell) !important; color: #080F0A !important; font-weight: bold; box-shadow: inset 0 0 8px rgba(0,0,0,0.4); }
+
+.puzzle-lock { background: #0D1810 !important; border: 2px solid var(--gold); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; color: var(--parchment) !important; box-shadow: 0 4px 25px rgba(0,0,0,0.6); }
+.lock-header { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--gold); text-align: center; margin-bottom: 1.5rem; text-transform: uppercase; }
+.padlock-dial-row { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1rem; }
+.tumbler-wheel { display: flex; flex-direction: column; background: #080F0A !important; border: 1px solid rgba(201,160,48,0.5); border-radius: 4px; padding: 0.3rem; width: 65px; }
+.tumbler-btn, .letter-btn { font-family: 'Cinzel', serif; font-size: 1.05rem !important; font-weight: 600; color: #F0E8D0 !important; text-align: center; padding: 0.6rem 0; cursor: pointer; user-select: none; background: rgba(255,255,255,0.04) !important; border: 1px solid rgba(240,232,208,0.15); width: 100%; margin: 2px 0; display: block; transition: all 0.15s; }
+.tumbler-btn:hover, .letter-btn:hover { color: var(--gold-pale) !important; background: rgba(201,160,48,0.2) !important; border-color: var(--gold-pale); }
+.letter-btn { border: 1px solid rgba(201,160,48,0.4); border-radius: 4px; padding: 0.8rem 1.2rem; background: #080F0A !important; }
+.tumbler-btn.selected, .letter-btn.selected { color: #080F0A !important; font-weight: 800; background: var(--spell) !important; border-color: var(--spell) !important; box-shadow: 0 0 12px var(--spell); }
+.lock-status { text-align: center; font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--gold-pale); letter-spacing: 0.15em; margin-top: 1.2rem; font-weight: 600; }
+.puzzle-lock.solved { pointer-events: none; opacity: 0.6; border-color: var(--spell); }
+.puzzle-lock.solved .lock-status { color: var(--spell) !important; text-shadow: 0 0 6px var(--spell); }
+
+.ending-wrap { background: linear-gradient(160deg, var(--oz-dark) 0%, #0A1F12 100%); border: 1px solid var(--gold); padding: 3.5rem 3rem; text-align: center; box-shadow: 0 0 60px rgba(74,232,120,0.08); }
+.ending-title { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 4vw, 2.4rem); color: var(--elphaba-pale); margin-bottom: 0.5rem; }
+.ending-prose { font-family: 'IM Fell English', serif; font-size: 1.08rem; color: rgba(240,232,208,0.8); margin: 1.5rem auto; max-width: 580px; }
+.ending-quote { font-style: italic; color: var(--gold); margin-top: 1.8rem; font-size: 1.2rem; border-top: 1px solid rgba(201,160,48,0.3); padding-top: 1.8rem; }
+.ending-fin { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.2em; color: var(--spell); margin-top: 1.5rem; }
+
+.mt { margin-top: 1rem; }
+@media (max-width: 540px) {
+  .story-card { padding: 1.4rem 1.2rem; }
+  .padlock-dial-row { gap: 0.3rem; }
+  .tumbler-wheel { width: 48px; }
+  .map-cell { font-size: 0.55rem; min-height: 44px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <div class="masthead-eyebrow">a wicked fic · tactical escape room · gelphie</div>
+  <h1 class="masthead-title">The <span class="e-word">Wicked</span> <span class="g-word">Remainder</span></h1>
+  <p class="masthead-subtitle">in which Galinda must manipulate mechanisms to unlock the truth</p>
+  <div class="masthead-rule"><div class="masthead-rule-center">+++</div></div>
+</header>
+
+<aside class="an-block">
+  <b>Author's Note</b>
+  <p>You are <em>Glinda Upland of the Upper Uplands</em> — née Galinda. The year is after. There are six physical locks between you and the truth.</p>
+</aside>
+
+<div class="chapter-block active" id="block-ch1">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter I of VI</div>
+    <h2 class="chapter-title">The <span class="green">Grimmerie</span> Speaks First</h2>
+    <div class="chap-rule"></div>
+  </div>
+  <div class="story-card">
+    <p class="prose">You open the book to the page she was working from the last night you saw her at Shiz. The margins are hers. Small, cramped, her quill pressed hard. She has written something in a cipher list of animals.</p>
+    
+    <span class="doc-label">Exhibit A — Grimmerie margin notation, Elphaba Thropp's hand</span>
+    <div class="doc doc-parchment">
+      <p>Ox. Goose. Unicorn. Tiger. Horse.<br>
+      Ox. Fox.<br>
+      Tiger. Horse. Elephant.<br>
+      Velvet-mole. Ibis. Nightingale. Kite. Unicorn. Squirrel.</p>
+    </div>
+    
+    <span class="doc-label">Exhibit B — Dillamond's Bestiary, partial page</span>
+    <div class="doc doc-parchment">
+      <table class="puzzle-table">
+        <thead><tr><th>Animal</th><th>First Letter</th><th>Animal</th><th>First Letter</th></tr></thead>
+        <tbody>
+          <tr><td>Ox</td><td class="highlight-e">S</td><td>Pelican</td><td>P</td></tr>
+          <tr><td>Unicorn</td><td class="highlight-e">O</td><td>Goose</td><td>U</td></tr>
+          <tr><td>Tiger</td><td class="highlight-e">T</td><td>Fox</td><td>F</td></tr>
+          <tr><td>Horse</td><td class="highlight-e">H</td><td>Ibis</td><td>I</td></tr>
+          <tr><td>Elephant</td><td class="highlight-e">E</td><td>Nightingale</td><td>N</td></tr>
+          <tr><td>Velvet-mole</td><td class="highlight-e">V</td><td>Kite</td><td>K</td></tr>
+          <tr><td>Squirrel</td><td class="highlight-e">S</td><td>Donkey</td><td>D</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="prose">Align the five heavy brass wheel rings below to input the core 5-letter tracking word decoded from her margin notes to unlock the mechanisms.</p>
+
+    <div class="puzzle-lock" id="lock-ch1">
+      <div class="lock-header">Grimmerie Lock Core</div>
+      <div class="padlock-dial-row">
+        <div class="tumbler-wheel" data-wheel="0">
+          <button class="tumbler-btn" data-value="P">P</button>
+          <button class="tumbler-btn" data-value="S">S</button>
+          <button class="tumbler-btn" data-value="V">V</button>
+        </div>
+        <div class="tumbler-wheel" data-wheel="1">
+          <button class="tumbler-btn" data-value="O">O</button>
+          <button class="tumbler-btn" data-value="U">U</button>
+          <button class="tumbler-btn" data-value="F">F</button>
+        </div>
+        <div class="tumbler-wheel" data-wheel="2">
+          <button class="tumbler-btn" data-value="T">T</button>
+          <button class="tumbler-btn" data-value="I">I</button>
+          <button class="tumbler-btn" data-value="U">U</button>
+        </div>
+        <div class="tumbler-wheel" data-wheel="3">
+          <button class="tumbler-btn" data-value="H">H</button>
+          <button class="tumbler-btn" data-value="T">T</button>
+          <button class="tumbler-btn" data-value="N">N</button>
+        </div>
+        <div class="tumbler-wheel" data-wheel="4">
+          <button class="tumbler-btn" data-value="E">E</button>
+          <button class="tumbler-btn" data-value="K">K</button>
+          <button class="tumbler-btn" data-value="H">H</button>
+        </div>
+      </div>
+      <div class="lock-status">LOCK STATUS: DEADBOLT ENGAGED</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-block" id="block-ch2">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter II of VI</div>
+    <h2 class="chapter-title">What <span class="green">Dillamond</span> Said and Did Not Say</h2>
+    <div class="chap-rule"></div>
+  </div>
+  <div class="story-card">
+    <p class="prose">S-O-U-T-H. The code clears. You need a more specific point. You open your notes from Dillamond's last lecture before he was taken. Dillamond switched between standard speech and capitalized formal Animal speech mid-lecture. You transcribed it perfectly without understanding why.</p>
+    
+    <span class="doc-label">Exhibit C — Lecture notes, Galinda Upland's hand</span>
+    <div class="doc doc-parchment">
+      <p>Today's subject is the northern migratory routes of the semi-sentient Wingéd Monkeys.</p>
+      <p>Near the Thousand Year Grasslands there is a crossing-point the Monkeys use in winter — I have charted it at the junction of the Vinkus River and the old Arjiki road, three days' walk from the fortress called <span class="underline">Kiamo Ko</span>.</p>
+      <p>Beneath the Grasslands, if <span class="green">One</span> <span class="green">Were</span> to <span class="green">Seek</span> <span class="green">It</span>, there exists a cave system the Arjiki used as sanctuary before the Ozification of the Vinkus.</p>
+      <p>In spring the caves flood; in winter they are dry and warm from the geothermal vents of the Kells.</p>
+      <p>Only <span class="green">Someone</span> <span class="green">Who</span> <span class="green">Knew</span> the Arjiki trails could find the entrance, which is marked by the eastern-facing Wingéd Monkey totems left by the Arjiki clan called the <span class="underline circled">Scrow</span>.</p>
+      <p>This is <span class="green">Not</span> something I teach lightly.</p>
+    </div>
+
+    <p class="prose">In Animal speech, mid-sentence capitals target exact destination features. Look at the primary target feature he describes. Turn the 4-dial dial array to name this 4-letter natural formation choice.</p>
+
+    <div class="puzzle-lock" id="lock-ch2">
+      <div class="lock-header">Vault Lock Core</div>
+      <div class="padlock-dial-row">
+        <div class="tumbler-wheel" data-wheel="0">
+          <button class="tumbler-btn" data-value="C">C</button>
+          <button class="tumbler-btn" data-value="R">R</button>
+          <button class="tumbler-btn" data-value="F">F</button>
+        </div>
+        <div class="tumbler-wheel" data-wheel="1">
+          <button class="tumbler-btn" data-value="O">O</button>
+          <button class="tumbler-btn" data-value="A">A</button>
+          <button class="tumbler-btn" data-value="I">I</button>
+        </div>
+        <div class="tumbler-wheel" data-wheel="2">
+          <button class="tumbler-btn" data-value="O">O</button>
+          <button class="tumbler-btn" data-value="A">A</button>
+          <button class="tumbler-btn" data-value="V">V</button>
+        </div>
+        <div class="tumbler-wheel" data-wheel="3">
+          <button class="tumbler-btn" data-value="D">D</button>
+          <button class="tumbler-btn" data-value="E">E</button>
+          <button class="tumbler-btn" data-value="R">R</button>
+        </div>
+      </div>
+      <div class="lock-status">LOCK STATUS: DIALS SEPARATED</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-block" id="block-ch3">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter III of VI</div>
+    <h2 class="chapter-title">Morrible's <span class="pink">Letter</span> Matrix</h2>
+    <div class="chap-rule"></div>
+  </div>
+  <div class="story-card">
+    <p class="prose">Madame Morrible wrote to the interim administration regarding a sweep of the southern Vinkus. The coordinates she cites use an insulated tracking grid running from A–F horizontally and 1–5 vertically, with the Emerald City at center position C3.</p>
+
+    <span class="doc-label">Exhibit D — Official correspondence, Madame Morrible</span>
+    <div class="doc doc-official">
+      <p>The search perimeter has been established as follows. Beginning at the Kells waystation (<em>grid reference E5</em>) and proceeding south, our operatives have cleared the passages at <em>D5</em>, <em>E4</em>, and have been instructed to bypass the sector at <em>B4</em> entirely, as it falls within Arjiki sovereign territory. The cave systems at <em>F4</em> have been cleared and found empty. The sector at <em>A5</em> remains unsearched due to terrain. We have confirmed no presence at <em>C5</em> or <em>D4</em>. The sector at <em>B5</em> is considered classified and has not been assigned to any operative team.</p>
+    </div>
+
+    <p class="prose">Identify the single sector she bypassed entirely. Tap directly on that coordinate square inside the reconstructed physical matrix to bridge the circuit link.</p>
+
+    <div class="map-grid" id="map-puzzle-core">
+      <div class="map-cell map-coord"></div>
+      <div class="map-cell map-coord">A</div><div class="map-cell map-coord">B</div><div class="map-cell map-coord">C</div>
+      <div class="map-cell map-coord">D</div><div class="map-cell map-coord">E</div><div class="map-cell map-coord">F</div>
+      
+      <div class="map-cell map-coord">1</div>
+      <div class="map-cell"></div><div class="map-cell"></div><div class="map-cell map-city">EC</div>
+      <div class="map-cell"></div><div class="map-cell"></div><div class="map-cell"></div>
+      
+      <div class="map-cell map-coord">2</div>
+      <div class="map-cell"></div><div class="map-cell"></div><div class="map-cell"></div>
+      <div class="map-cell"></div><div class="map-cell"></div><div class="map-cell"></div>
+      
+      <div class="map-cell map-coord">3</div>
+      <div class="map-cell"></div><div class="map-cell"></div><div class="map-cell"></div>
+      <div class="map-cell"></div><div class="map-cell"></div><div class="map-cell"></div>
+      
+      <div class="map-cell map-coord">4</div>
+      <div class="map-cell interactive-node" data-coord="A4"></div>
+      <div class="map-cell map-x" data-coord="B4">Arjiki</div>
+      <div class="map-cell interactive-node" data-coord="C4"></div>
+      <div class="map-cell interactive-node" data-coord="D4"></div>
+      <div class="map-cell interactive-node" data-coord="E4"></div>
+      <div class="map-cell interactive-node" data-coord="F4"></div>
+      
+      <div class="map-cell map-coord">5</div>
+      <div class="map-cell interactive-node" data-coord="A5"></div>
+      <div class="map-cell interactive-node" data-coord="B5"></div>
+      <div class="map-cell interactive-node" data-coord="C5"></div>
+      <div class="map-cell interactive-node" data-coord="D5"></div>
+      <div class="map-cell interactive-node" data-coord="E5"></div>
+      <div class="map-cell interactive-node" data-coord="F5"></div>
+    </div>
+
+    <div class="puzzle-lock" id="lock-ch3">
+      <div class="lock-header">Location Matrix Padlock</div>
+      <div class="lock-status">MATRIX CAPACITOR: OPEN LOOP</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-block" id="block-ch4">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter IV of VI</div>
+    <h2 class="chapter-title">The Directional Compass Gate</h2>
+    <div class="chap-rule"></div>
+  </div>
+  <div class="story-card">
+    <p class="prose">The matrix clicks. Ahead lies an open courtyard flanked by ancient stone totems. You step onto a pressure plate platform configured like a map compass. The stone bears a freshly carved instructional phrase, directing attention away from the traditional tracking points.</p>
+    
+    <div class="doc doc-parchment">
+      <p>"The sentinel faces the sunrise, yet its mechanical locking slider can only disengage if pressure is applied directly from the opposite cardinal direction, tracking back toward the dynamic barrens."</p>
+    </div>
+    
+    <p class="prose">Press the correct directional step vector to direct your physical weight into the mechanism.</p>
+
+    <div class="puzzle-lock" id="lock-ch4">
+      <div class="lock-header">Pressure Plate Vector Compass</div>
+      <div style="display:flex; justify-content:center; gap:0.8rem; flex-wrap:wrap;">
+        <button class="letter-btn" data-dir="NORTH">NORTH</button>
+        <button class="letter-btn" data-dir="EAST">EAST</button>
+        <button class="letter-btn" data-dir="SOUTH">SOUTH</button>
+        <button class="letter-btn" data-dir="WEST">WEST</button>
+      </div>
+      <div class="lock-status" style="margin-top:1.5rem;">PADLOCK STATUS: LOCKED</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-block" id="block-ch5">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter V of VI</div>
+    <h2 class="chapter-title">The Multi-Switch Crypt-Box</h2>
+    <div class="chap-rule"></div>
+  </div>
+  <div class="story-card">
+    <p class="prose">Beyond the courtyard, an old observation terminal overlooks a grid of decaying scarecrow markers stretched across the field infrastructure. A heavy slate tablet nearby explains the dependency logic constraints for the panel configuration:</p>
+    
+    <div class="doc doc-parchment">
+      <p>"Flipping an isolated switch alters reality fields symmetrically. Each anchor mechanism shares energetic alignments with its primary counterparts. You must activate the node grid matrix so that all six indicators are simultaneously illuminated. Striking a path toggles the direct anchor and instantly inverts both flanking adjacent positions."</p>
+    </div>
+
+    <div class="scarecrow-grid">
+      <div class="sc-cell">Breaker Alpha<br><strong>Linked: F, B</strong></div>
+      <div class="sc-cell">Breaker Beta<br><strong>Linked: A, C</strong></div>
+      <div class="sc-cell">Breaker Gamma<br><strong>Linked: B, D</strong></div>
+      <div class="sc-cell">Breaker Delta<br><strong>Linked: C, E</strong></div>
+      <div class="sc-cell">Breaker Epsilon<br><strong>Linked: D, F</strong></div>
+      <div class="sc-cell">Breaker Zeta<br><strong>Linked: E, A</strong></div>
+    </div>
+    
+    <p class="prose">Calculate the exact mathematical sequence pattern to illuminate all modules simultaneously. Direct clicks do not work independently.</p>
+
+    <div class="puzzle-lock" id="lock-ch5">
+      <div class="lock-header">Linked Logic Core Matrix</div>
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.5rem; max-width:550px; margin:0 auto;">
+        <button class="letter-btn multi-toggle" data-idx="0">A</button>
+        <button class="letter-btn multi-toggle" data-idx="1">B</button>
+        <button class="letter-btn multi-toggle" data-idx="2">C</button>
+        <button class="letter-btn multi-toggle" data-idx="3">D</button>
+        <button class="letter-btn multi-toggle" data-idx="4">E</button>
+        <button class="letter-btn multi-toggle" data-idx="5">F</button>
+      </div>
+      <div class="lock-status" style="margin-top:1.5rem;">GRID STATE: DISCONNECTED UNSYNCED</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-block" id="block-ch6">
+  <div class="chapter-head">
+    <div class="chapter-num">Chapter VI of VI — Final Seal</div>
+    <h2 class="chapter-title">The Three-Tier Ritual Incantation Lock</h2>
+    <div class="chap-rule"></div>
+  </div>
+  <div class="story-card">
+    <p class="prose">The final vault door is solid obsidian, shimmering with old protective enchantments. Three runic command blocks are carved into the center stone. You read the hidden structural rules engraved above the threshold:</p>
+    
+    <div class="doc doc-official">
+      <p>"The runic alignment demands strict structural transformation steps. To access the final remainder, input the incantations in ascending sequence of total consonants contained within the terms. Any click pattern that matches the baseline presentation vertical hierarchy structure triggers an immediate cascading circuit protection reset."</p>
+    </div>
+    
+    <p class="prose">Engage all three incantation anchors in the calculated sequence configuration to break open the seal once and for all.</p>
+
+    <div class="puzzle-lock" id="lock-ch6">
+      <div class="lock-header">Dynamic Command Verification Portal</div>
+      <div style="display:flex; flex-direction:column; gap:0.6rem; max-width:350px; margin:0 auto;">
+        <button class="letter-btn final-toggle" data-val="REMAIN">RUN: REMAIN</button>
+        <button class="letter-btn final-toggle" data-val="OPEN">RUN: OPEN</button>
+        <button class="letter-btn final-toggle" data-val="NAME">RUN: NAME</button>
+      </div>
+      <div class="lock-status" style="margin-top:1.5rem;">PORTAL ENCHANTMENT: BOUND</div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter-block" id="block-ending">
+  <div class="chapter-head">
+    <div class="chapter-num">Epilogue</div>
+    <h2 class="chapter-title"><span class="pink">She Is</span> <span class="green">There</span></h2>
+  </div>
+  <div class="ending-wrap">
+    <div class="ending-eyebrow">All Seals Disengaged</div>
+    <h2 class="ending-title">The <span class="pink">Wicked</span> Remainder</h2>
+    <p class="ending-prose">The final structural locks drop away with a resounding echo. The stone barrier slides down completely, revealing a warm, candlelit room.</p>
+    <p class="ending-prose">At the desk, she pauses her writing, turning around with wide eyes that quickly settle into familiar, quiet acceptance.</p>
+    <div class="ending-quote">
+      "You tracked every single code line," she whispers.<br>
+      "You left a trail worth tracking," you answer.
+    </div>
+    <div class="ending-fin">RUN SYSTEM INTEGRITY: SOLVED SYSTEM TERMINATED</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  
+  function setupWheelLock(lockId, currentArray, correctArray, nextBlockId) {
+    const lockEl = document.getElementById(lockId);
+    const wheels = lockEl.querySelectorAll(".tumbler-wheel");
+    
+    wheels.forEach(wheel => {
+      const wheelIndex = parseInt(wheel.getAttribute("data-wheel"), 10);
+      const btns = wheel.querySelectorAll(".tumbler-btn");
+      
+      btns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          wheel.querySelectorAll(".tumbler-btn").forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          currentArray[wheelIndex] = btn.getAttribute("data-value");
+          
+          if (JSON.stringify(currentArray) === JSON.stringify(correctArray)) {
+            setLockSolved(lockEl, "PASSCODE ALIGNED LOCK DISENGAGED", nextBlockId);
+          }
+        });
+      });
+    });
+  }
+
+  function setLockSolved(lockElement, statusText, nextBlockId) {
+    lockElement.classList.add("solved");
+    lockElement.querySelector(".lock-status").innerText = statusText;
+    if (nextBlockId) {
+      document.getElementById(nextBlockId).classList.add("active");
+      document.getElementById(nextBlockId).scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  const p1Correct = ["S", "O", "U", "T", "H"];
+  const p1Current = ["", "", "", "", ""];
+  setupWheelLock("lock-ch1", p1Current, p1Correct, "block-ch2");
+
+  const p2Correct = ["C", "A", "V", "E"];
+  const p2Current = ["", "", "", ""];
+  setupWheelLock("lock-ch2", p2Current, p2Correct, "block-ch3");
+
+  const lock3 = document.getElementById("lock-ch3");
+  const nodes3 = document.querySelectorAll(".interactive-node");
+  nodes3.forEach(node => {
+    node.addEventListener("click", () => {
+      nodes3.forEach(n => n.classList.remove("selected"));
+      node.classList.add("selected");
+      if (node.getAttribute("data-coord") === "B5") {
+        setLockSolved(lock3, "MATRIX PASSCODE ROUTE VERIFIED", "block-ch4");
+      }
+    });
+  });
+
+  const lock4 = document.getElementById("lock-ch4");
+  const buttons4 = lock4.querySelectorAll(".letter-btn");
+  buttons4.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons4.forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      if (btn.getAttribute("data-dir") === "WEST") {
+        setLockSolved(lock4, "PRESSURE BALANCED MECHANISM DISENGAGED", "block-ch5");
+      }
+    });
+  });
+
+  const lock5 = document.getElementById("lock-ch5");
+  const buttons5 = Array.from(lock5.querySelectorAll(".multi-toggle"));
+  let gridStates = [false, false, false, false, false, false];
+
+  buttons5.forEach((btn, idx) => {
+    btn.addEventListener("click", () => {
+      let targets = [(idx - 1 + 6) % 6, idx, (idx + 1) % 6];
+      targets.forEach(tIdx => {
+        gridStates[tIdx] = !gridStates[tIdx];
+        if (gridStates[tIdx]) {
+          buttons5[tIdx].classList.add("selected");
+        } else {
+          buttons5[tIdx].classList.remove("selected");
+        }
+      });
+
+      const allSolved = gridStates.every(s => s === true);
+      if (allSolved) {
+        setLockSolved(lock5, "MATRIX SYNCHRONIZED ALL CIRCUITS ACTIVE", "block-ch6");
+      } else {
+        const activeCount = gridStates.filter(s => s).length;
+        lock5.querySelector(".lock-status").innerText = "SYNCHRONIZED PATHS: " + activeCount + " OF 6";
+      }
+    });
+  });
+
+  const lock6 = document.getElementById("lock-ch6");
+  const buttons6 = lock6.querySelectorAll(".final-toggle");
+  let finalTrackSequence = [];
+  let trackingAttemptsCount = 0;
+  
+  buttons6.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (btn.classList.contains("selected")) return;
+      
+      btn.classList.add("selected");
+      finalTrackSequence.push(btn.getAttribute("data-val"));
+      trackingAttemptsCount++;
+      
+      if (trackingAttemptsCount === 1 && btn.getAttribute("data-val") === "REMAIN") {
+        triggerReset();
+        return;
+      }
+      
+      const expected = ["OPEN", "NAME", "REMAIN"];
+      
+      for(let i=0; i < finalTrackSequence.length; i++) {
+        if(finalTrackSequence[i] !== expected[i]) {
+          triggerReset();
+          return;
+        }
+      }
+      
+      if(finalTrackSequence.length === expected.length) {
+        setLockSolved(lock6, "PORTAL SEALS DECAYED ACCESS GRANTED", "block-ending");
+      }
+    });
+  });
+
+  function triggerReset() {
+    const status = lock6.querySelector(".lock-status");
+    status.innerText = "CRITICAL PATH reset PROTECTION MODE TRIGGERED";
+    status.style.color = "#ff4a4a";
+    
+    setTimeout(() => {
+      buttons6.forEach(b => b.classList.remove("selected"));
+      finalTrackSequence = [];
+      trackingAttemptsCount = 0;
+      status.innerText = "PORTAL ENCHANTMENT: BOUND";
+      status.style.color = "";
+    }, 1200);
+  }
+
+});
+</script>
+</body>
+</html>
