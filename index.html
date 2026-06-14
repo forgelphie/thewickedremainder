@@ -58,7 +58,6 @@ body {
 .an-block { background: rgba(13,24,16,0.9); border: 1px solid var(--rule); border-left: 3px solid var(--gold); padding: 1.5rem 1.8rem; margin: 2.5rem 0; font-size: 0.96rem; color: rgba(240,232,208,0.75); }
 .an-block b { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.7rem; }
 .an-block em { color: var(--galinda-pale); }
-.an-block .green-em { color: var(--elphaba-pale); font-style: italic; }
 
 .chapter-block { display: none; animation: gatePass 0.7s ease both; }
 .chapter-block.active { display: block; }
@@ -88,7 +87,6 @@ body {
 .margin-note { font-size: 0.82rem; color: var(--elphaba); font-style: italic; border-left: 2px solid var(--elphaba-mid); padding-left: 0.7rem; margin: 0.5rem 0 0.5rem 1rem; }
 .doc .underline { text-decoration: underline; text-underline-offset: 3px; }
 .doc .circled { display: inline-block; border: 1.5px solid #5A3520; border-radius: 50%; padding: 0 0.2em; }
-.doc .redacted { background: #1A1008; color: #1A1008; user-select: none; padding: 0 0.15em; }
 .doc-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); opacity: 0.7; margin-bottom: 0.5rem; display: block; }
 
 .puzzle-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-family: 'IM Fell English', serif; font-size: 0.93rem; }
@@ -104,7 +102,6 @@ body {
 .map-cell { background: #EAE0C4; padding: 0.5rem 0.3rem; text-align: center; font-size: 0.7rem; color: #251508; min-height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'IM Fell English', serif; }
 .map-cell.map-coord { background: #D4C89A; font-family: 'Cinzel', serif; font-size: 0.6rem; color: #8A7040; font-weight: bold; }
 .map-cell.map-city { background: #A8D5B5; font-weight: bold; color: var(--elphaba); }
-.map-cell.map-x { background: rgba(158,45,82,0.15); color: var(--galinda); font-weight: bold; }
 .map-cell.interactive-node { cursor: pointer; transition: all 0.2s; }
 .map-cell.interactive-node:hover { background: #E2D4A8; }
 .map-cell.interactive-node.selected { background: var(--spell) !important; color: #080F0A !important; font-weight: bold; box-shadow: inset 0 0 8px rgba(0,0,0,0.4); }
@@ -148,7 +145,7 @@ body {
 
 <aside class="an-block">
   <b>Author's Note</b>
-  <p>You are <em>Glinda Upland of the Upper Uplands</em> — née Galinda. The year is after. There are six physical locks between you and the truth.</p>
+  <p>You are <em>Glinda Upland of the Upper Uplands</em> — née Galinda. The year is after. There are six physical locks between you and the truth. No multiple-choice pathways exist anymore. Interact with the mechanics directly to align physical runic pins, lock coordinates, and circuit routing arrays.</p>
 </aside>
 
 <div class="chapter-block active" id="block-ch1">
@@ -166,6 +163,7 @@ body {
       Ox. Fox.<br>
       Tiger. Horse. Elephant.<br>
       Velvet-mole. Ibis. Nightingale. Kite. Unicorn. Squirrel.</p>
+      <div class="margin-note">— written in the key of Dillamond's Bestiary, first letter only —</div>
     </div>
     
     <span class="doc-label">Exhibit B — Dillamond's Bestiary, partial page</span>
@@ -184,7 +182,7 @@ body {
       </table>
     </div>
 
-    <p class="prose">Align the five heavy brass wheel rings below to input the core 5-letter tracking word decoded from her margin notes to unlock the mechanisms.</p>
+    <p class="prose">Align the five heavy brass wheel rings below to input the core 5-letter tracking word decoded from **Line 1** of her margin notes to unlock the mechanisms.</p>
 
     <div class="puzzle-lock" id="lock-ch1">
       <div class="lock-header">Grimmerie Lock Core</div>
@@ -277,14 +275,14 @@ body {
     <div class="chap-rule"></div>
   </div>
   <div class="story-card">
-    <p class="prose">Madame Morrible wrote to the interim administration regarding a sweep of the southern Vinkus. The coordinates she cites use an insulated tracking grid running from A–F horizontally and 1–5 vertically, with the Emerald City at center position C3.</p>
+    <p class="prose">Madame Morrible wrote to the interim administration regarding a sweep of the southern Vinkus. The tactical coordinates use an insulated tracking grid running from A–F horizontally and 1–5 vertically, with the Emerald City at center position C3.</p>
 
     <span class="doc-label">Exhibit D — Official correspondence, Madame Morrible</span>
     <div class="doc doc-official">
-      <p>The search perimeter has been established as follows. Beginning at the Kells waystation (<em>grid reference E5</em>) and proceeding south, our operatives have cleared the passages at <em>D5</em>, <em>E4</em>, and have been instructed to bypass the sector at <em>B4</em> entirely, as it falls within Arjiki sovereign territory. The cave systems at <em>F4</em> have been cleared and found empty. The sector at <em>A5</em> remains unsearched due to terrain. We have confirmed no presence at <em>C5</em> or <em>D4</em>. The sector at <em>B5</em> is considered classified and has not been assigned to any operative team.</p>
+      <p>The layout matrix has been locked using vector bounds. Row 4 is completely compromised; our tracking sweeps confirmed hits across its whole linear spread from column Alpha out to column Foxtrot. Row 5 contains the absolute blindspot. We have thoroughly validated and mapped sectors E5, D5, B5, and C5 as empty containment buffers. Operatives also swept A5 and confirmed it is completely clear of physical signatures. Do not route communication currents through any cell that has been accounted for by our teams or rows that are explicitly declared compromised.</p>
     </div>
 
-    <p class="prose">Identify the single sector she bypassed entirely. Tap directly on that coordinate square inside the reconstructed physical matrix to bridge the circuit link.</p>
+    <p class="prose">Deduce the single remaining operational coordinate sector in the matrix that was left completely unaccounted for by the sweep teams. Tap directly on that coordinate square inside the reconstructed grid to bridge the tracking circuit.</p>
 
     <div class="map-grid" id="map-puzzle-core">
       <div class="map-cell map-coord"></div>
@@ -305,7 +303,7 @@ body {
       
       <div class="map-cell map-coord">4</div>
       <div class="map-cell interactive-node" data-coord="A4"></div>
-      <div class="map-cell map-x" data-coord="B4">Arjiki</div>
+      <div class="map-cell interactive-node" data-coord="B4"></div>
       <div class="map-cell interactive-node" data-coord="C4"></div>
       <div class="map-cell interactive-node" data-coord="D4"></div>
       <div class="map-cell interactive-node" data-coord="E4"></div>
@@ -488,8 +486,9 @@ document.addEventListener("DOMContentLoaded", () => {
   nodes3.forEach(node => {
     node.addEventListener("click", () => {
       nodes3.forEach(n => n.classList.remove("selected"));
+      node.boxShadow = "none";
       node.classList.add("selected");
-      if (node.getAttribute("data-coord") === "B5") {
+      if (node.getAttribute("data-coord") === "F5") {
         setLockSolved(lock3, "MATRIX PASSCODE ROUTE VERIFIED", "block-ch4");
       }
     });
